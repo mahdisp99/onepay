@@ -11,3 +11,6 @@ frontend/.next/
 # Env files
 backend/.env
 frontend/.env.local
+
+# Runtime logs
+*.log
