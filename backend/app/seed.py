@@ -22,28 +22,6 @@ def seed(db: Session):
     db.add(project)
     db.flush()
 
-    plans = [
-        FloorPlan(
-            project_id=project.id,
-            title="نقشه کلی - بلوک A",
-            level="همکف",
-            file_format="dwg",
-            source_url="https://example.com/cad/block-a-master-plan.dwg",
-            viewer_url="https://example.com/viewer/block-a-master-plan",
-            viewer_urn=None,
-        ),
-        FloorPlan(
-            project_id=project.id,
-            title="نقشه تیپ طبقه چهار",
-            level="طبقه ۴",
-            file_format="dwg",
-            source_url="https://example.com/cad/floor-4-typical.dwg",
-            viewer_url="https://example.com/viewer/floor-4-typical",
-            viewer_urn=None,
-        ),
-    ]
-    db.add_all(plans)
-
     units = [
         Unit(project_id=project.id, unit_code="A-401", floor=4, area_m2=118.5, bedrooms=3, price=14500000000),
         Unit(project_id=project.id, unit_code="A-402", floor=4, area_m2=102.0, bedrooms=2, price=12100000000),

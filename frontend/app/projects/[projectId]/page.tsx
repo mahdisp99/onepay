@@ -26,6 +26,7 @@ export default function ProjectDetailPage() {
   const [loading, setLoading] = useState(true);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [activePlan, setActivePlan] = useState<ProjectDetail["plans"][number] | null>(null);
 
   useEffect(() => {
     getProject(params.projectId)
@@ -85,14 +86,13 @@ export default function ProjectDetailPage() {
                     <p className="muted">
                       طبقه/سطح: {plan.level} | فرمت: {plan.file_format.toUpperCase()}
                     </p>
-                    <a
+                    <button
                       className="button ghost"
-                      href={plan.viewer_url || plan.source_url}
-                      target="_blank"
-                      rel="noreferrer"
+                      type="button"
+                      onClick={() => setActivePlan(plan)}
                     >
                       مشاهده نقشه
-                    </a>
+                    </button>
                   </div>
                 ))}
               </div>
@@ -110,6 +110,52 @@ export default function ProjectDetailPage() {
               </Link>
             </article>
           </section>
+
+          {activePlan ? (
+            <div
+              className="modal-overlay"
+              role="presentation"
+              onClick={() => setActivePlan(null)}
+            >
+              <div className="modal" onClick={(event) => event.stopPropagation()}>
+                <header className="modal-header">
+                  <div>
+                    <h3>{activePlan.title}</h3>
+                    <p className="muted">
+                      طبقه/سطح: {activePlan.level} | فرمت: {activePlan.file_format.toUpperCase()}
+                    </p>
+                  </div>
+                  <button
+                    className="button ghost modal-close"
+                    type="button"
+                    onClick={() => setActivePlan(null)}
+                  >
+                    بستن
+                  </button>
+                </header>
+                <div className="modal-body">
+                  <iframe
+                    className="modal-frame"
+                    title={activePlan.title}
+                    src={activePlan.viewer_url || activePlan.source_url}
+                  />
+                  <div className="row" style={{ marginTop: "0.8rem" }}>
+                    <a
+                      className="button ghost"
+                      href={activePlan.viewer_url || activePlan.source_url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      باز کردن در تب جدید
+                    </a>
+                  </div>
+                  <p className="muted" style={{ marginTop: "0.6rem" }}>
+                    اگر فایل داخل مرورگر نمایش داده نشد، از لینک بالا برای دانلود یا مشاهده استفاده کنید.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : null}
 
           <section style={{ marginTop: "1rem" }} className="table-wrap">
             <table>

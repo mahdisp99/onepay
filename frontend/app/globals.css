@@ -240,6 +240,59 @@ th {
   animation: rise 420ms ease both;
 }
 
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(19, 18, 18, 0.58);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  z-index: 100;
+}
+
+.modal {
+  width: min(980px, 96vw);
+  max-height: min(82vh, 820px);
+  background: var(--surface);
+  border-radius: calc(var(--radius) + 6px);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px rgba(22, 18, 15, 0.22);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  border-bottom: 1px solid var(--line);
+  background: #f9f6f1;
+}
+
+.modal-header h3 {
+  margin: 0 0 0.4rem;
+}
+
+.modal-body {
+  padding: 1.1rem 1.2rem 1.3rem;
+  overflow: auto;
+}
+
+.modal-frame {
+  width: 100%;
+  height: min(60vh, 520px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.modal-close {
+  white-space: nowrap;
+}
+
 @keyframes rise {
   from {
     opacity: 0;
