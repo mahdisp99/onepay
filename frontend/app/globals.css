@@ -289,6 +289,33 @@ th {
   background: #fff;
 }
 
+.image-frame {
+  width: 100%;
+  height: min(60vh, 520px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  overflow: auto;
+}
+
+.image-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: top right;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.zoom-range {
+  flex: 1;
+}
+
 .modal-close {
   white-space: nowrap;
 }

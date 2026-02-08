@@ -27,6 +27,7 @@ export default function ProjectDetailPage() {
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [activePlan, setActivePlan] = useState<ProjectDetail["plans"][number] | null>(null);
+  const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     getProject(params.projectId)
@@ -89,7 +90,10 @@ export default function ProjectDetailPage() {
                     <button
                       className="button ghost"
                       type="button"
-                      onClick={() => setActivePlan(plan)}
+                      onClick={() => {
+                        setZoom(1);
+                        setActivePlan(plan);
+                      }}
                     >
                       مشاهده نقشه
                     </button>
@@ -134,11 +138,58 @@ export default function ProjectDetailPage() {
                   </button>
                 </header>
                 <div className="modal-body">
-                  <iframe
-                    className="modal-frame"
-                    title={activePlan.title}
-                    src={activePlan.viewer_url || activePlan.source_url}
-                  />
+                  {(() => {
+                    const assetUrl = activePlan.viewer_url || activePlan.source_url;
+                    const isImage = /\.(png|jpe?g|gif|webp)$/i.test(assetUrl || "");
+
+                    if (isImage) {
+                      return (
+                        <>
+                          <div className="zoom-controls">
+                            <button
+                              className="button ghost"
+                              type="button"
+                              onClick={() => setZoom((value) => Math.max(1, value - 0.25))}
+                            >
+                              -
+                            </button>
+                            <input
+                              className="zoom-range"
+                              type="range"
+                              min={1}
+                              max={4}
+                              step={0.1}
+                              value={zoom}
+                              onChange={(event) => setZoom(Number(event.target.value))}
+                            />
+                            <button
+                              className="button ghost"
+                              type="button"
+                              onClick={() => setZoom((value) => Math.min(4, value + 0.25))}
+                            >
+                              +
+                            </button>
+                            <span className="muted">x{zoom.toFixed(1)}</span>
+                          </div>
+                          <div className="image-frame">
+                            <img
+                              alt={activePlan.title}
+                              src={assetUrl}
+                              style={{ transform: `scale(${zoom})` }}
+                            />
+                          </div>
+                        </>
+                      );
+                    }
+
+                    return (
+                      <iframe
+                        className="modal-frame"
+                        title={activePlan.title}
+                        src={assetUrl}
+                      />
+                    );
+                  })()}
                   <div className="row" style={{ marginTop: "0.8rem" }}>
                     <a
                       className="button ghost"
