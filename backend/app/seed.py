@@ -12,7 +12,7 @@ def seed(db: Session):
         return
 
     project = Project(
-        title="برج باغ وان‌پی",
+        title="شهرک نگین سربندان",
         slug="onepay-garden-residence",
         description="مجتمع مسکونی مدرن با فضاهای عمومی باکیفیت، پارکینگ هوشمند و امکانات کامل خانوادگی.",
         address="تهران، منطقه ۲۲",
